@@ -11,7 +11,6 @@ class Crawler(object):
     def __init__(self, url):
         self.base_url = url
         self.visited = {}
-        self.all_urls = []
         self.count = 0
         self.queue = []
         
@@ -35,6 +34,8 @@ class Crawler(object):
                 
                 for u in list_of_urls:
                     full_url = self.base_url + u
+                    
+                    # Add this url for visit if not already visited
                     if not self.visited.get(full_url, False):
                         self.queue.insert(0, full_url)
                     
