@@ -19,13 +19,19 @@ def get_pattern():
 
 def send_and_receive(url):
     req = urllib2.Request(url)
-
-    resp = urllib2.urlopen(req, timeout=30)
+    resp = None
     
-    # retry if response code wasn't 2xx, 4xx or 5xx
-    page_data = resp.read()
-    return page_data
+    # We can add retries if response code wasn't 2xx, 4xx or 5xx (That is, we had a network problem)
+    try:
+        resp = urllib2.urlopen(req)
+        page_data = resp.read()
         
+    finally:
+        if resp:
+            resp.close()
+        
+    return page_data
+
     
 def find_links(url):
     """
